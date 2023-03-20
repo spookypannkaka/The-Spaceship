@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class test : MonoBehaviour
+public class Lamp : MonoBehaviour
 {
+    [SerializeField] float moveSpeed = 15.0f;
+    float moveAmount;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -13,6 +16,7 @@ public class test : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        moveAmount = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
+        transform.Translate(moveAmount,0,0);
     }
 }
