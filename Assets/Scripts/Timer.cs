@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class Timer : MonoBehaviour
 {
-    [SerializeField] float secondsTotal = 20f;
+    [SerializeField] float totalTime = 20f;
     float currentTime;
 
     void Start() {
-        currentTime = secondsTotal;
+        currentTime = totalTime;
     }
 
     void Update() {
