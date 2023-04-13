@@ -8,6 +8,7 @@ public class CraneMovement : MonoBehaviour
     [SerializeField] float moveAmount;
     [SerializeField] float grabSpeed = 10.0f;
 
+    private bool moveCrane = false; 
     private bool goingDown = false;
     private bool goingUp = false;
 
@@ -19,26 +20,36 @@ public class CraneMovement : MonoBehaviour
     {
 
     }
+    IEnumerator wait()
+    {
+        goingDown = false;
+       yield return new WaitForSeconds(1);
+          goingUp = true;  
+        
+    }
 
     public void grabItem()
     {
         if (goingUp)
         {
             moveAmount = grabSpeed * Time.deltaTime;
-            //crane.transform.Translate(0, moveAmount, 0);
-            if (crane.transform.position.y = 2.0f)
+            crane.transform.Translate(0, moveAmount, 0);
+            if (crane.transform.position.y >= 2.0f)
             {
                 goingUp = false;
+                 goingDown = false;
+                 moveCrane = false;
+             
             }
         }
-        else
+        else if(goingDown)
         {
             moveAmount = -grabSpeed * Time.deltaTime;
-            //crane.transform.Translate(0, moveAmount, 0);
+            crane.transform.Translate(0, moveAmount, 0);
             if (crane.transform.position.y <= -1.3f)
             {
-                goingDown = false;
-                goingUp = true;
+             
+                StartCoroutine(wait());
             }
         }
 
@@ -48,7 +59,7 @@ public class CraneMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (goingDown)
+        if (moveCrane)
         {
             grabItem();
         }
@@ -70,7 +81,8 @@ public class CraneMovement : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            goingDown = true;
+            goingDown = true; 
+            moveCrane = true;
         }
     }
 }
