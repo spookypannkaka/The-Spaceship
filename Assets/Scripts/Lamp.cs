@@ -10,13 +10,13 @@ public class Lamp : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
         moveAmount = Input.GetAxis("Horizontal") * moveSpeed * Time.deltaTime;
-        transform.Translate(moveAmount,0,0);
+        transform.Translate(moveAmount, 0, 0);
     }
 }
