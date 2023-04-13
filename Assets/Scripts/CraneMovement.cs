@@ -5,9 +5,14 @@ using UnityEngine;
 public class CraneMovement : MonoBehaviour
 {
 
-    [SerializeField] float moveAmount = 5.0f;
+    [SerializeField] float moveAmount;
+    [SerializeField] float grabSpeed = 10.0f;
+
+    private bool goingDown = false;
+    private bool goingUp = false;
 
     public GameObject crane;
+
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +22,25 @@ public class CraneMovement : MonoBehaviour
 
     public void grabItem()
     {
-        Debug.Log("hej");
+        if (goingUp)
+        {
+            moveAmount = grabSpeed * Time.deltaTime;
+            //crane.transform.Translate(0, moveAmount, 0);
+            if (crane.transform.position.y = 2.0f)
+            {
+                goingUp = false;
+            }
+        }
+        else
+        {
+            moveAmount = -grabSpeed * Time.deltaTime;
+            //crane.transform.Translate(0, moveAmount, 0);
+            if (crane.transform.position.y <= -1.3f)
+            {
+                goingDown = false;
+                goingUp = true;
+            }
+        }
 
 
     }
@@ -25,6 +48,10 @@ public class CraneMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (goingDown)
+        {
+            grabItem();
+        }
 
         if (Input.GetKeyDown(KeyCode.A))
         {
@@ -43,11 +70,8 @@ public class CraneMovement : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-
-
-
+            goingDown = true;
         }
-        crane.transform.Translate(new Vector3(0, -0.5f, 0) * Time.deltaTime);
     }
 }
 
