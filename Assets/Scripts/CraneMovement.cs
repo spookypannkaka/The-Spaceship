@@ -22,9 +22,9 @@ public class CraneMovement : MonoBehaviour
     }
     IEnumerator wait()
     {
-        goingDown = false;
+       goingDown = false;
        yield return new WaitForSeconds(1);
-          goingUp = true;  
+       goingUp = true;  
         
     }
 
@@ -37,8 +37,8 @@ public class CraneMovement : MonoBehaviour
             if (crane.transform.position.y >= 2.0f)
             {
                 goingUp = false;
-                 goingDown = false;
-                 moveCrane = false;
+                goingDown = false;
+                moveCrane = false;
              
             }
         }
