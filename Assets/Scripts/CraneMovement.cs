@@ -13,6 +13,7 @@ public class CraneMovement : MonoBehaviour
     private bool goingUp = false;
 
     public GameObject crane;
+    public GameObject objectToGrab;
 
 
     // Start is called before the first frame update
@@ -23,6 +24,16 @@ public class CraneMovement : MonoBehaviour
     IEnumerator wait()
     {
        goingDown = false;
+       RaycastHit2D hit = Physics2D.Raycast(crane.transform.position, -transform.up, 2.0f); 
+       Debug.Log("Hit object tag: " + hit.collider.tag);
+       if (hit.collider.gameObject.CompareTag("Item"))
+           
+                {
+                    
+
+                    objectToGrab = hit.collider.gameObject;
+                    objectToGrab.transform.SetParent(crane.transform); // set the grabbed object's parent to the crane
+                }
        yield return new WaitForSeconds(1);
        goingUp = true;  
         
@@ -46,10 +57,16 @@ public class CraneMovement : MonoBehaviour
         {
             moveAmount = -grabSpeed * Time.deltaTime;
             crane.transform.Translate(0, moveAmount, 0);
+           
             if (crane.transform.position.y <= -1.3f)
             {
+                 StartCoroutine(wait());
+                
+                
+                   
+                
              
-                StartCoroutine(wait());
+               
             }
         }
 
@@ -59,6 +76,8 @@ public class CraneMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+        Debug.DrawRay(crane.transform.position, -transform.up * 1.0f, Color.red);
         if (moveCrane)
         {
             grabItem();
