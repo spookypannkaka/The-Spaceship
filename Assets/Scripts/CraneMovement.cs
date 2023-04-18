@@ -6,7 +6,7 @@ public class CraneMovement : MonoBehaviour
 {
 
     [SerializeField] float moveAmount;
-    [SerializeField] float grabSpeed = 10.0f;
+    [SerializeField] float grabSpeed = 1.0f;
 
     private bool moveCrane = false; 
     private bool goingDown = false;
@@ -43,7 +43,7 @@ public class CraneMovement : MonoBehaviour
     {
         if (goingUp)
         {
-            moveAmount = grabSpeed * Time.deltaTime;
+            moveAmount = grabSpeed * (Time.fixedDeltaTime/2);
             crane.transform.Translate(0, moveAmount, 0);
             if (crane.transform.position.y >= 2.0f)
             {
@@ -55,18 +55,12 @@ public class CraneMovement : MonoBehaviour
         }
         else if(goingDown)
         {
-            moveAmount = -grabSpeed * Time.deltaTime;
+            moveAmount = -grabSpeed * (Time.fixedDeltaTime/2);
             crane.transform.Translate(0, moveAmount, 0);
            
             if (crane.transform.position.y <= -1.3f)
             {
-                 StartCoroutine(wait());
-                
-                
-                   
-                
-             
-               
+                 StartCoroutine(wait());      
             }
         }
 
