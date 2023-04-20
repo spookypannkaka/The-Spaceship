@@ -24,7 +24,7 @@ public class CraneMovement : MonoBehaviour
     IEnumerator wait()
     {
         goingDown = false;
-        RaycastHit2D hit = Physics2D.Raycast(crane.transform.position, -transform.up, 2.0f);
+        RaycastHit2D hit = Physics2D.Raycast(crane.transform.position, -transform.up, 8.5f);
         Debug.Log("Hit object tag: " + hit.collider.tag);
         if (hit.collider.gameObject.CompareTag("Item"))
 
@@ -43,9 +43,9 @@ public class CraneMovement : MonoBehaviour
     {
         if (goingUp)
         {
-            moveAmount = grabSpeed * (Time.fixedDeltaTime / 2);
+            moveAmount = grabSpeed * (Time.fixedDeltaTime / 3);
             crane.transform.Translate(0, moveAmount, 0);
-            if (crane.transform.position.y >= 2.0f)
+            if (crane.transform.position.y >= 8.0f)
             {
                 goingUp = false;
                 goingDown = false;
@@ -55,10 +55,10 @@ public class CraneMovement : MonoBehaviour
         }
         else if (goingDown)
         {
-            moveAmount = -grabSpeed * (Time.fixedDeltaTime / 2);
+            moveAmount = -grabSpeed * (Time.fixedDeltaTime / 3);
             crane.transform.Translate(0, moveAmount, 0);
 
-            if (crane.transform.position.y <= -1.3f)
+            if (crane.transform.position.y <= 4.5)
             {
                 StartCoroutine(wait());
             }
@@ -71,7 +71,7 @@ public class CraneMovement : MonoBehaviour
     void Update()
     {
 
-        Debug.DrawRay(crane.transform.position, -transform.up * 1.0f, Color.red);
+        Debug.DrawRay(crane.transform.position, -transform.up * 8.0f, Color.red);
         if (moveCrane)
         {
             grabItem();
@@ -81,14 +81,14 @@ public class CraneMovement : MonoBehaviour
         {
             if (crane.transform.position.x > -5.0f)
             {
-                crane.transform.position += new Vector3(-5.0f, 0.0f, 0.0f);
+                crane.transform.position += new Vector3(-3.0f, 0.0f, 0.0f);
             }
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
             if (crane.transform.position.x < 5.0f)
             {
-                crane.transform.position += new Vector3(5.0f, 0.0f, 0.0f);
+                crane.transform.position += new Vector3(3.0f, 0.0f, 0.0f);
 
             }
         }
