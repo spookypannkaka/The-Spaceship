@@ -8,6 +8,9 @@ public class CraneMovement : MonoBehaviour
     [SerializeField] float moveAmount;
     [SerializeField] float grabSpeed = 1.0f;
 
+    private bool inputFromPlayerOne = false; 
+    private bool inputFromPlayerTwo = false; 
+
     private bool moveCrane = false;
     private bool goingDown = false;
     private bool goingUp = false;
@@ -23,7 +26,9 @@ public class CraneMovement : MonoBehaviour
     private bool moveBackToStart = false;
 
     public GameObject crane;
-    public GameObject objectToGrab;
+    public GameObject crane2;
+
+    private GameObject objectToGrab;
 
     private GameObject[] itemsOnBench = new GameObject[2];
     private int numberOfItemsOnBench = 0; 
@@ -44,12 +49,10 @@ public class CraneMovement : MonoBehaviour
         itemsOnBench[numberOfItemsOnBench] = objectToGrab;
         numberOfItemsOnBench++;
         if(numberOfItemsOnBench == 1){
-            Debug.Log("PLATS1");
              objectToGrab.transform.position = tablePosition1;
        
         }
         else if(numberOfItemsOnBench == 2){
-            Debug.Log("PLATS2");
             objectToGrab.transform.position = tablePosition2;
         }
         objectToGrab.transform.parent = null;
@@ -63,15 +66,16 @@ public class CraneMovement : MonoBehaviour
        
         
     }
-    IEnumerator lookForItem()
+    IEnumerator lookForItem(GameObject objectToCastRay)
     {
         goingDown = false;
-        RaycastHit2D hit = Physics2D.Raycast(crane.transform.position, -transform.up, 8.5f);
-        //Debug.Log("Hit object tag: " + hit.collider.tag);
+        RaycastHit2D hit = Physics2D.Raycast(objectToCastRay.transform.position, -transform.up, 8.5f);
+        
         if (hit.collider != null)
         {
+            Debug.Log("Hit object tag: " + hit.collider.tag);
             objectToGrab = hit.collider.gameObject;
-            objectToGrab.transform.SetParent(crane.transform); // set the grabbed object's parent to the crane
+            objectToGrab.transform.SetParent(objectToCastRay.transform); // set the grabbed object's parent to the crane
             craneHasItem = true; 
         }
         yield return new WaitForSeconds(1);
@@ -84,9 +88,8 @@ public class CraneMovement : MonoBehaviour
         if(moveBackToStart){
              crane.transform.Translate(-moveAmount, 0, 0);
             if(crane.transform.position.x <= -8){
-                Debug.Log("aaa");
-            moveBackToStart = false;
-            moveToTable = false;
+                moveBackToStart = false;
+                moveToTable = false;
             }
         }
         else{
@@ -103,13 +106,13 @@ public class CraneMovement : MonoBehaviour
         
     }
 
-    public void grabItem()
+    public void grabItem(GameObject objectToMove)
     {
         if (goingUp)
         {
             moveAmount = grabSpeed * (Time.fixedDeltaTime / 3);
-            crane.transform.Translate(0, moveAmount, 0);
-            if (crane.transform.position.y >= 8.0f)
+            objectToMove.transform.Translate(0, moveAmount, 0);
+            if (objectToMove.transform.position.y >= 8.0f)
             {
                 goingUp = false;
                 goingDown = false;
@@ -121,76 +124,141 @@ public class CraneMovement : MonoBehaviour
         else if (goingDown)
         {
             moveAmount = -grabSpeed * (Time.fixedDeltaTime / 3);
-            crane.transform.Translate(0, moveAmount, 0);
+            objectToMove.transform.Translate(0, moveAmount, 0);
 
-            if (crane.transform.position.y <= 4.5)
+            if (objectToMove.transform.position.y <= 4.5)
             {
-                StartCoroutine(lookForItem());
+                StartCoroutine(lookForItem(objectToMove));
             }
         }
 
 
     }
-    public void moveSide(string rightOrLeft){
+    public void moveSide(string rightOrLeft, GameObject objectToMove){
         //shift movement right or left
         int shift = 1;
         if (rightOrLeft == "left"){
             shift = -1;
         }
         moveAmount = shift * grabSpeed * (Time.fixedDeltaTime / 3);
-        crane.transform.Translate(moveAmount, 0, 0);
+        objectToMove.transform.Translate(moveAmount, 0, 0);
     }
 
+    
     // Update is called once per frame
     void Update()
     {
+        Debug.DrawRay(crane2.transform.position,-transform.up*8.0f, Color.green);
         if(moveToTable){
             putItemOnTable();
         }
 
-        Debug.DrawRay(crane.transform.position, -transform.up * 8.0f, Color.red);
         if (moveCrane)
         {
-            grabItem();
+            if(inputFromPlayerOne){
+            grabItem(crane);
+
+            }
+            if(inputFromPlayerTwo){
+            grabItem(crane2);
+
+            }
         }
 
         if (moveCraneLeft){
-            moveSide("left");
+            if(inputFromPlayerOne){
+            moveSide("left", crane);
             float distance = Vector3.Distance(cranePos, crane.transform.position);
             if (distance >= 3){
                 crane.transform.position += new Vector3(distance-3,0,0);
                 moveCraneLeft = false;
+                inputFromPlayerOne = false; 
             }
+            }
+            if(inputFromPlayerTwo){
+                 moveSide("left", crane2);
+            float distance = Vector3.Distance(cranePos, crane2.transform.position);
+            if (distance >= 3){
+                crane2.transform.position += new Vector3(distance-3,0,0);
+                moveCraneLeft = false;
+                inputFromPlayerTwo = false; 
+            }
+            }
+           
 
         }
         if (moveCraneRight){
-            moveSide("right");
+            
+             if(inputFromPlayerOne){
+            moveSide("right", crane);
             float distance = Vector3.Distance(cranePos, crane.transform.position);
             if (distance >= 3){
-                 crane.transform.position -= new Vector3(distance-3,0,0);
+                crane.transform.position -= new Vector3(distance-3,0,0);
                 moveCraneRight = false;
-                
+                inputFromPlayerOne = false; 
+            }
+            }
+            if(inputFromPlayerTwo){
+                 moveSide("right", crane2);
+            float distance = Vector3.Distance(cranePos, crane2.transform.position);
+            if (distance >= 3){
+                crane2.transform.position -= new Vector3(distance-3,0,0);
+                moveCraneRight = false;
+                inputFromPlayerTwo = false; 
+            }
             }
 
+       
         }
+         //SPELARE 1
         if (Input.GetKeyDown(KeyCode.A)){
             moveCraneLeft = true;
+            inputFromPlayerOne = true;
             cranePos = crane.transform.position;
+
         }
 
         if (Input.GetKeyDown(KeyCode.D)){
+            inputFromPlayerOne = true;
             moveCraneRight = true;
             cranePos = crane.transform.position;
             
         }
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.S))
         {
+            inputFromPlayerOne = true;
+            goingDown = true;
+            moveCrane = true;
+        }
+
+        //SPELARE 2
+        if (Input.GetKeyDown(KeyCode.LeftArrow)){
+             moveCraneLeft = true;
+            inputFromPlayerTwo = true;
+            cranePos = crane2.transform.position;
+           
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightArrow)){
+            inputFromPlayerTwo = true;
+            moveCraneRight = true;
+            cranePos = crane2.transform.position;
+            
+        }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            inputFromPlayerTwo = true;
             goingDown = true;
             moveCrane = true;
         }
 
         if(numberOfItemsOnBench == 2){
-            
+            if (itemsOnBench[0].tag == itemsOnBench[1].tag) {
+            Debug.Log("pair!!!!!!");
+        } else {
+            Debug.Log("NOOOOOO");
+        }
+
         }
     }
 }
