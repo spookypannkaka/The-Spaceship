@@ -13,8 +13,6 @@ public class PlanetOrbitController : MonoBehaviour
 
     public float angle;
 
-    public float minOrbitSize = 1f;
-    public float maxOrbitSize = 5f;
 
 
     // Start is called before the first frame update
@@ -28,12 +26,6 @@ public class PlanetOrbitController : MonoBehaviour
     {
         //float angle = Time.time * orbitSpeed;
     float orbitSize = Mathf.Abs(Input.mousePosition.x - Screen.width / 2) * mouseSensitivity / (Screen.width / 2);
-
-        // if (Input.GetAxis("Mouse X") != 0) //thresholds
-        // {
-        //     orbitSize -= Input.GetAxis("Mouse X") * 0.1f;
-        //     orbitSize = Mathf.Clamp(orbitSize, minOrbitSize, maxOrbitSize);
-        // }
 
         angle += velocity * Time.deltaTime;
 
