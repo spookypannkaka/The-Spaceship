@@ -12,7 +12,7 @@ public class matchOrbit : MonoBehaviour
     public float mouseSensitivity = 4.0f;
     public float successDistance = 0.5f;
     public float maxVelocity = 2.0f;
-    public float minRadius = 1.0f;
+    public float minRadius = 4.0f;
 
     public float gameStateTimer = 0;
     public float timerLimit = 2f;
@@ -39,8 +39,8 @@ public class matchOrbit : MonoBehaviour
         spriteRenderer = Flash.GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = false;
 
-        GoalVelocities = new List<float>(){0.8f, 1.0f, 1.5f};
-        GoalRadius = new List<float>(){2.0f, 3.0f, 5.0f};
+        GoalVelocities = new List<float>(){0.8f, 1.0f, 1.2f};
+        GoalRadius = new List<float>(){3.0f, 4.0f, 6.0f};
         GoalAngles = new List<float>(){8.0f, 3.0f, 6.0f};
 
         velocityGoal = GoalVelocities[0];
