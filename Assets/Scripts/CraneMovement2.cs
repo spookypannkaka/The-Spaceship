@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Data;
 
-public class CraneMovement : MonoBehaviour
+public class CraneMovement2 : MonoBehaviour
 {
     
     [SerializeField] float grabSpeed = 1.0f;
@@ -18,7 +19,7 @@ public class CraneMovement : MonoBehaviour
     private bool moveCraneRight = false;
     private bool moveCraneLeft = false;
 
-    //Bools fÃ¶r att ainmera lÃ¤gga saker pÃ¥ bordet och sen tillbaka till start
+    //Bools för att ainmera lägga saker på bordet och sen tillbaka till start
     private bool moveToTable = false; 
     private bool moveBackToStart = false;
 
@@ -28,12 +29,12 @@ public class CraneMovement : MonoBehaviour
     private GameObject objectToGrab;
     private Vector3 objectsOriginalPos;
 
-     public TableHandler table;
-  
+    public TableHandler table;
+    
     // Start is called before the first frame update
     void Start()
     {
-        ableToMove = true; 
+    ableToMove = true;
     }
     
     IEnumerator lookForItem(GameObject objectToCastRay)
@@ -45,8 +46,9 @@ public class CraneMovement : MonoBehaviour
         {
             Debug.Log("Hit object tag: " + hit.collider.tag);
             objectToGrab = hit.collider.gameObject;
-            objectsOriginalPos = objectToGrab.transform.position; 
+            objectsOriginalPos = objectToGrab.transform.position;
             objectToGrab.transform.SetParent(objectToCastRay.transform); // set the grabbed object's parent to the crane
+            
         }
         else{
             Debug.Log("Miss");
@@ -59,29 +61,28 @@ public class CraneMovement : MonoBehaviour
 
     IEnumerator goBackToOgPosition()
     {    
-        //Mechanic fÃ¶r att fÃ¥ in object 
+        //Mechanic för att få in object 
           moveBackToStart = true;
           goingDown = true;  
-          table.addItemToTable(crane.transform.GetChild(0).gameObject,objectsOriginalPos);
+          table.addItemToTable(crane.transform.GetChild(0).gameObject, objectsOriginalPos);
 
            objectToGrab.transform.parent = null;
         yield return new WaitForSeconds(1);
         goingDown = false;
-        //Debug.Log(itemsOnBench[0]);
          
     }
 
     public void putItemOnTable(){ 
         if(moveBackToStart){
-            //NÃ¤r den gÃ¥r ner och lÃ¤gger den pÃ¥ bordet
+            //När den går ner och lägger den på bordet
             if(goingDown){
 
             }
-            //GÃ¥r tillbaka
+            //Går tillbaka
             else{
-                moveSide("left", crane);
-                //Kranen Ã¤r lÃ¤ngst till vÃ¤nster
-                 if(crane.transform.position.x <= -7){
+                moveSide("right", crane);
+                //Kranen är längst till vänster
+                 if(crane.transform.position.x >= 22){
                     moveToTable = false;
                     moveBackToStart = false;
                     goingDown = false; 
@@ -92,9 +93,9 @@ public class CraneMovement : MonoBehaviour
         //Flyttar till bordet
         else{
             Debug.Log("Going left");
-            moveSide("right", crane);
-        //Den Ã¤r Ã¶ver bordet
-        if(crane.transform.position.x >= 7.5){
+            moveSide("left", crane);
+        //Den är över bordet
+        if(crane.transform.position.x <= 7.5){
             StartCoroutine(goBackToOgPosition());     
         }
         }        
@@ -182,26 +183,29 @@ public class CraneMovement : MonoBehaviour
             }
         }
 
-        //SPELARE 2
-        if (ableToMove && Input.GetKeyDown(KeyCode.A) && crane.transform.position.x > -7){
-             moveCraneLeft = true;
+   
+    //SPELARE 2
+        if (ableToMove && Input.GetKeyDown(KeyCode.LeftArrow) && crane.transform.position.x > 13){
+            moveCraneLeft = true;
             cranePos = crane.transform.position;
-            ableToMove = false;
+            ableToMove = false; 
            
         }
 
-        if (ableToMove && Input.GetKeyDown(KeyCode.D) && crane.transform.position.x < 2){
+        if (ableToMove && Input.GetKeyDown(KeyCode.RightArrow) && crane.transform.position.x < 22){
             moveCraneRight = true;
             cranePos = crane.transform.position;
             ableToMove = false; 
             
         }
-        if (ableToMove && Input.GetKeyDown(KeyCode.S))
+        if (ableToMove && Input.GetKeyDown(KeyCode.DownArrow))
         {
             goingDown = true;
             moveCrane = true;
-            ableToMove = false; 
+            ableToMove = false;
         }
+    
+       
 
     
     }
