@@ -5,9 +5,9 @@ using UnityEngine;
 public class PlanetOrbitController : MonoBehaviour
 {
 
-    public float velocity = 1f;
+    [SerializeField] public float velocity = 1f;
 
-    public float orbitSpeed = 1f;
+    public float orbitSpeed = 1.0f;
     public float orbitSize = 5f;
     public float mouseSensitivity = 4f;
 
@@ -24,14 +24,14 @@ public class PlanetOrbitController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //float angle = Time.time * orbitSpeed;
-    float orbitSize = Mathf.Abs(Input.mousePosition.x - Screen.width / 2) * mouseSensitivity / (Screen.width / 2);
+
+        float orbitSize = Mathf.Abs(Input.mousePosition.x - Screen.width / 2) * mouseSensitivity / (Screen.width / 2);
 
         angle += velocity * Time.deltaTime;
 
         //control size of orbit
         
-        Vector2 offset = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle)) * orbitSize;
+        Vector2 offset = new Vector2(Mathf.Sin(angle), Mathf.Cos(angle))*orbitSize;
         transform.position = offset;
 
     //control velocity of the planet/object in orbit
