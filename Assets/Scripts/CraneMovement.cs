@@ -18,7 +18,7 @@ public class CraneMovement : MonoBehaviour
     private bool moveCraneRight = false;
     private bool moveCraneLeft = false;
 
-    //Bools fÃ¶r att ainmera lÃ¤gga saker pÃ¥ bordet och sen tillbaka till start
+    //Bools för att ainmera lägga saker på bordet och sen tillbaka till start
     private bool moveToTable = false; 
     private bool moveBackToStart = false;
 
@@ -59,7 +59,7 @@ public class CraneMovement : MonoBehaviour
 
     IEnumerator goBackToOgPosition()
     {    
-        //Mechanic fÃ¶r att fÃ¥ in object 
+        //Mechanic för att få in object 
           moveBackToStart = true;
           goingDown = true;  
           table.addItemToTable(crane.transform.GetChild(0).gameObject,objectsOriginalPos);
@@ -73,14 +73,14 @@ public class CraneMovement : MonoBehaviour
 
     public void putItemOnTable(){ 
         if(moveBackToStart){
-            //NÃ¤r den gÃ¥r ner och lÃ¤gger den pÃ¥ bordet
+            //När den går ner och lägger den på bordet
             if(goingDown){
 
             }
-            //GÃ¥r tillbaka
+            //Går tillbaka
             else{
                 moveSide("left", crane);
-                //Kranen Ã¤r lÃ¤ngst till vÃ¤nster
+                //Kranen är längst till vänster
                  if(crane.transform.position.x <= -7){
                     moveToTable = false;
                     moveBackToStart = false;
@@ -93,7 +93,7 @@ public class CraneMovement : MonoBehaviour
         else{
             Debug.Log("Going left");
             moveSide("right", crane);
-        //Den Ã¤r Ã¶ver bordet
+        //Den är över bordet
         if(crane.transform.position.x >= 7.5){
             StartCoroutine(goBackToOgPosition());     
         }
