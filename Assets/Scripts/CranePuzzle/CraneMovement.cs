@@ -8,11 +8,12 @@ public class CraneMovement : MonoBehaviour
     [SerializeField] float grabSpeed = 1.0f;
     private float moveAmount;
 
+    private bool ableToMove; 
+
      private bool moveCrane = false;
     private bool goingDown = false;
     private bool goingUp = false;
 
-    private bool craneHasItem = false;
     
     private bool moveCraneRight = false;
     private bool moveCraneLeft = false;
@@ -25,13 +26,14 @@ public class CraneMovement : MonoBehaviour
     private Vector3 cranePos;
 
     private GameObject objectToGrab;
+    private Vector3 objectsOriginalPos;
 
      public TableHandler table;
   
     // Start is called before the first frame update
     void Start()
     {
-        
+        ableToMove = true; 
     }
     
     IEnumerator lookForItem(GameObject objectToCastRay)
@@ -43,8 +45,12 @@ public class CraneMovement : MonoBehaviour
         {
             Debug.Log("Hit object tag: " + hit.collider.tag);
             objectToGrab = hit.collider.gameObject;
+            objectsOriginalPos = objectToGrab.transform.position; 
             objectToGrab.transform.SetParent(objectToCastRay.transform); // set the grabbed object's parent to the crane
-            craneHasItem = true; 
+        }
+        else{
+            Debug.Log("Miss");
+            moveBackToStart = true; 
         }
         yield return new WaitForSeconds(1);
         goingUp = true;
@@ -56,7 +62,7 @@ public class CraneMovement : MonoBehaviour
         //Mechanic för att få in object 
           moveBackToStart = true;
           goingDown = true;  
-          table.addItemToTable(crane.transform.GetChild(0).gameObject);
+          table.addItemToTable(crane.transform.GetChild(0).gameObject,objectsOriginalPos);
 
            objectToGrab.transform.parent = null;
         yield return new WaitForSeconds(1);
@@ -79,6 +85,7 @@ public class CraneMovement : MonoBehaviour
                     moveToTable = false;
                     moveBackToStart = false;
                     goingDown = false; 
+                    ableToMove = true; 
                  }
             }
         }
@@ -162,6 +169,7 @@ public class CraneMovement : MonoBehaviour
             if (distance >= 3){
                 crane.transform.position += new Vector3(distance-3,0,0);
                 moveCraneLeft = false;
+                ableToMove = true; 
             }
         }
         if (moveCraneRight){
@@ -170,25 +178,29 @@ public class CraneMovement : MonoBehaviour
             if (distance >= 3){
                 crane.transform.position -= new Vector3(distance-3,0,0);
                 moveCraneRight = false;
+                ableToMove = true; 
             }
         }
 
         //SPELARE 2
-        if (Input.GetKeyDown(KeyCode.A)){
+        if (ableToMove && Input.GetKeyDown(KeyCode.A) && crane.transform.position.x > -7){
              moveCraneLeft = true;
             cranePos = crane.transform.position;
+            ableToMove = false;
            
         }
 
-        if (Input.GetKeyDown(KeyCode.D)){
+        if (ableToMove && Input.GetKeyDown(KeyCode.D) && crane.transform.position.x < 2){
             moveCraneRight = true;
             cranePos = crane.transform.position;
+            ableToMove = false; 
             
         }
-        if (Input.GetKeyDown(KeyCode.S))
+        if (ableToMove && Input.GetKeyDown(KeyCode.S))
         {
             goingDown = true;
             moveCrane = true;
+            ableToMove = false; 
         }
 
     

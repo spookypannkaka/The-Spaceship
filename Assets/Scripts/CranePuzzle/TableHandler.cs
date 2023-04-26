@@ -8,26 +8,33 @@ public class TableHandler : MonoBehaviour
     private int numberOfItemsOnBench = 0; 
     private Vector3 tablePosition1 = new Vector3(6.2f,-2.3f,0.0f);
     private Vector3 tablePosition2 = new Vector3(8.4f,-2.6f,0.0f);
+
+    private Vector3 originalPos1;
+    private Vector3 originalPos2;
     // Start is called before the first frame update
     void Start()
     {
         
     }
 
-    public void addItemToTable(GameObject item){
+    public void addItemToTable(GameObject item, Vector3 OgPosition){
         itemsOnBench[numberOfItemsOnBench] = item;
         numberOfItemsOnBench++;
         if(numberOfItemsOnBench == 1){
              item.transform.position = tablePosition1;
+             originalPos1 = OgPosition;
        
         }
         else if(numberOfItemsOnBench == 2){
             item.transform.position = tablePosition2;
+            originalPos2 = OgPosition; 
         }
     }
 
     public void resetTable(){
-
+        itemsOnBench[0].transform.position = originalPos1;
+         itemsOnBench[1].transform.position = originalPos2;
+          numberOfItemsOnBench = 0;
     }
 
     public void clearTable(){
@@ -82,7 +89,7 @@ public class TableHandler : MonoBehaviour
                 moveToStand();
                 
         } else {
-            clearTable();
+            resetTable();
         }
         }
     }
