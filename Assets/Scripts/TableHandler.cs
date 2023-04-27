@@ -99,7 +99,7 @@ public class TableHandler : MonoBehaviour
         }
 
         if (counter==4){
-            lvlLoader.LoadNextLevel();
+            lvlLoader.LoadNextLevel("OrbitPuzzle");
         }
     }
 }

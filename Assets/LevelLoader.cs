@@ -6,38 +6,36 @@ using UnityEngine.SceneManagement;
 public class LevelLoader : MonoBehaviour
 {
     public Animator transition;
+    public Animator transition2;
     public float transitionTime = 1.0f;
 
 
     // Update is called once per frame
     void Update()
     {
-        // Här kan vi lägga till trigger så när något e klart i ett pussel så ska transition ske.
-        if(Input.GetMouseButtonDown(0)){
-            LoadNextLevel();
-        }
         
     }
 
 
-    public void LoadNextLevel(){
-        StartCoroutine(LoadLevel(SceneManager.GetActiveScene().buildIndex + 1));
+    public void LoadNextLevel(string sceneName){
+        StartCoroutine(LoadLevel(sceneName));
 
 
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
 
-    IEnumerator LoadLevel(int levelIndex){
+    IEnumerator LoadLevel(string sceneName){
 
         //Play animation
         transition.SetTrigger("Start");
+        transition2.SetTrigger("Start");
 
         //Wait
         yield return new WaitForSeconds(transitionTime);
 
         //Load scene
-        SceneManager.LoadScene(levelIndex);
+        SceneManager.LoadScene(sceneName);
 
     }
 }
