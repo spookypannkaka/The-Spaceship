@@ -1,9 +1,5 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/LevelLoader.cs.meta
-guid: 048bcca98f6e47d4099240e645659497
-========
-guid: 58aa53abf6b4e4084acec4efa66cd37b
->>>>>>>> planetPusselTest:Assets/PlanetOrbitController.cs.meta
+guid: fd5fd87397e4aa44292fa5f15f5dbe8a
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
