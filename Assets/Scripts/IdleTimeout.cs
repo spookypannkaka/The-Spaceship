@@ -25,7 +25,7 @@ public class IdleTimeout : MonoBehaviour
     void Update() {
         DecreaseTime();
 
-        if (Input.anyKey) { 
+        if (Input.anyKey || Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0) { 
             ResetTime();
         }
 
