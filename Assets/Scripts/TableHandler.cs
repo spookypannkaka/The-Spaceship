@@ -11,6 +11,10 @@ public class TableHandler : MonoBehaviour
 
     private Vector3 originalPos1;
     private Vector3 originalPos2;
+
+    public LevelLoader lvlLoader;
+    int counter = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -87,10 +91,15 @@ public class TableHandler : MonoBehaviour
          if(numberOfItemsOnBench == 2){
             if (itemsOnBench[0].tag == itemsOnBench[1].tag) {
                 moveToStand();
+                counter+=1;
                 
         } else {
             resetTable();
         }
+        }
+
+        if (counter==4){
+            lvlLoader.LoadNextLevel();
         }
     }
 }
