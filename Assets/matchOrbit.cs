@@ -8,6 +8,9 @@ public class matchOrbit : MonoBehaviour
     public GameObject Planet;
     public GameObject Flash;
     SpriteRenderer spriteRenderer;
+    SpriteRenderer outline;
+    public Sprite greenOutline;
+    public Sprite redOutline;
 
     public float mouseSensitivity = 4.0f;
     public float successDistance = 0.5f;
@@ -36,6 +39,8 @@ public class matchOrbit : MonoBehaviour
     void Start()
     {
 
+        outline = Goal.GetComponent<SpriteRenderer>();
+
         spriteRenderer = Flash.GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = false;
 
@@ -51,37 +56,44 @@ public class matchOrbit : MonoBehaviour
     void Update()
     {
         float distance = Vector3.Distance(Goal.transform.position,Planet.transform.position);
-        if ((distance < successDistance) && (!runningAnimation)){
+        if ((distance < successDistance)){
 
-            //Add color or sign that you are doing somehting right!!
+            if (!runningAnimation){
 
-            gameStateTimer += Time.deltaTime;
+                //Add color or sign that you are doing somehting right!!
+                outline.sprite = greenOutline;
 
-            if (gameStateTimer >= timerLimit){
-                wins+=1;
-                
+                //Add to the timer
+                gameStateTimer += Time.deltaTime;
 
-                //Now it is time to take photo of the planet:
-                runningAnimation = true;
+                //If you have been close enough for sertain time
+                if (gameStateTimer >= timerLimit){
+                    wins+=1;
 
-                //Snap the planet to the goal
-                anglePlanet = angleGoal;
-                angleCheck = anglePlanet;
-                velocityPlanet = velocityGoal;
-                radiusPlanet = radiusGoal;
 
-                gameStateTimer = 0;
+                    //Now it is time to take photo of the planet:
+                    runningAnimation = true;
 
-                if (wins == 3){
-                    Debug.Log("DONE!");
+                    //Snap the planet to the goal
+                    anglePlanet = angleGoal;
+                    angleCheck = anglePlanet;
+                    velocityPlanet = velocityGoal;
+                    radiusPlanet = radiusGoal;
+
+                    gameStateTimer = 0;
+
+                    if (wins == 3){
+                        Debug.Log("DONE!");
+                    }
+
                 }
 
-
-            }
+            } 
                 
 
         } else {
             gameStateTimer = 0;
+            outline.sprite = redOutline;
         }
 
         anglePlanet += velocityPlanet * Time.deltaTime;
