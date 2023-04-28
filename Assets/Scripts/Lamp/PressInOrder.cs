@@ -31,8 +31,16 @@ public class PressInOrder : MonoBehaviour
     }
 
     public void changeColor(Color color, int number){
-        var inputCircle = colorIndicator[number].GetComponent<Renderer>();
-        inputCircle.material.SetColor("_Color", color);
+        Color newColor;
+        if(color == Color.white){
+            newColor = new Color(1.0f,1.0f,1.0f, 0.0f);
+        }
+        else{
+            newColor = new Color(color.r,color.g,color.b, 1.0f);
+        }
+        
+        var inputCircle = colorIndicator[number].GetComponent<SpriteRenderer>();
+        inputCircle.color = newColor; 
         indicatorCounter++; 
     }
 
