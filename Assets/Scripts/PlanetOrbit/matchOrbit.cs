@@ -125,15 +125,18 @@ public class matchOrbit : MonoBehaviour
             if (radiusPlanet < minRadius){
                 radiusPlanet = minRadius;
             }
-            //control velocity of the planet/object in orbit
-            if (Input.GetKey(KeyCode.LeftArrow)) 
-            {
-                velocityPlanet -= 0.01f;
-            }
-            else if (Input.GetKey(KeyCode.RightArrow))
-            {
-                velocityPlanet += 0.01f;
-            }
+
+            velocityPlanet = Mathf.Abs(Input.mousePosition.y - Screen.width / 2) * mouseSensitivity / (Screen.width / 2);
+            
+            ////control velocity of the planet/object in orbit
+            //if (Input.GetKey(KeyCode.LeftArrow)) 
+            //{
+            //    velocityPlanet -= 0.01f;
+            //}
+            //else if (Input.GetKey(KeyCode.RightArrow))
+            //{
+            //    velocityPlanet += 0.01f;
+            //}
 
             if(velocityPlanet > maxVelocity){
                 velocityPlanet = maxVelocity;
