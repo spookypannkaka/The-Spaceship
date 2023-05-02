@@ -15,7 +15,7 @@ public class matchOrbit : MonoBehaviour
     public Sprite greenOutline;
     public Sprite redOutline;
 
-    public float mouseSensitivity = 4.0f;
+    public float mouseSensitivity = 1.2f;
     public float successDistance = 0.5f;
     public float maxVelocity = 2.0f;
     public float minRadius = 4.0f;
@@ -48,7 +48,7 @@ public class matchOrbit : MonoBehaviour
         spriteRenderer.enabled = false;
 
         GoalVelocities = new List<float>(){0.8f, 1.0f, 1.2f};
-        GoalRadius = new List<float>(){3.0f, 4.0f, 6.0f};
+        GoalRadius = new List<float>(){3.0f, 4.0f, 5.0f};
         GoalAngles = new List<float>(){8.0f, 3.0f, 6.0f};
 
         velocityGoal = GoalVelocities[0];
@@ -131,8 +131,8 @@ public class matchOrbit : MonoBehaviour
                 radiusPlanet = minRadius;
             }
 
-            velocityPlanet = Mathf.Abs(Input.mousePosition.y - Screen.width / 2) * mouseSensitivity / (Screen.width / 2);
-            
+            velocityPlanet = (Input.mousePosition.y - Screen.height / 2) * mouseSensitivity / (Screen.width / 2);
+            Debug.Log(velocityPlanet);
             
             ////control velocity of the planet/object in orbit
             //if (Input.GetKey(KeyCode.LeftArrow)) 
@@ -147,8 +147,8 @@ public class matchOrbit : MonoBehaviour
             if(velocityPlanet > maxVelocity){
                 velocityPlanet = maxVelocity;
             }
-            if(velocityPlanet < 0){
-                velocityPlanet = 0;
+            if(velocityPlanet < -maxVelocity){
+                velocityPlanet = -maxVelocity;
             }
         }
 

@@ -1069,7 +1069,7 @@ MonoBehaviour:
   Flash: {fileID: 6098444}
   greenOutline: {fileID: 3286163911610860551, guid: d546df67fab11274ebc46fcc2bac5ee4, type: 3}
   redOutline: {fileID: 3286163911610860551, guid: 41864739956198e4a8535cd139ce861a, type: 3}
-  mouseSensitivity: 4
+  mouseSensitivity: 1
   successDistance: 0.6
   maxVelocity: 2
   minRadius: 1.5
