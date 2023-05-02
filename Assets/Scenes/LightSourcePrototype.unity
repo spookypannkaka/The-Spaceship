@@ -3386,7 +3386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8a82d2ab5ea2394887f3002e0c6db4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSensitivity: 10
+  moveSensitivity: 0.6
   outerRight: {x: 38, y: 3.87, z: 0}
   outerLeft: {x: 29, y: 3.87, z: 0}
 --- !u!1 &1506677698
