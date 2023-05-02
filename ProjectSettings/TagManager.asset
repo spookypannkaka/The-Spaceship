@@ -9,6 +9,13 @@ TagManager:
   - PackGas
   - SuitThread
   - BootsBrush
+  - Player1
+  - Player2
+  - Color1
+  - Color2
+  - Color3
+  - Color4
+  - NoColor
   layers:
   - Default
   - TransparentFX
