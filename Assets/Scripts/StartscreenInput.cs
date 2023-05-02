@@ -17,17 +17,17 @@ public class StartscreenInput : MonoBehaviour
     void Update()
     {
         if (player1Or2 == "1") {
-            if (Input.GetKey(KeyCode.E)) {
-                spriteRenderer.color = new Color32(255,0,0,255);
-                transform.gameObject.tag = "Color1";
-            } else if (Input.GetKey(KeyCode.R)) {
-                spriteRenderer.color = new Color32(0,255,0,255);
-                transform.gameObject.tag = "Color2";
-            } else if (Input.GetKey(KeyCode.T)) {
+            if (Input.GetKey(KeyCode.E)) { // Blue button
                 spriteRenderer.color = new Color32(0,0,255,255);
+                transform.gameObject.tag = "Color1";
+            } else if (Input.GetKey(KeyCode.R)) { // Yellow button
+                spriteRenderer.color = new Color32(255,255,0,255);
+                transform.gameObject.tag = "Color2";
+            } else if (Input.GetKey(KeyCode.T)) { // Red button
+                spriteRenderer.color = new Color32(255,0,0,255);
                 transform.gameObject.tag = "Color3";
-            } else if (Input.GetKey(KeyCode.Y)) {
-                spriteRenderer.color = new Color32(255,0,255,255);
+            } else if (Input.GetKey(KeyCode.Y)) { // Green button
+                spriteRenderer.color = new Color32(0,255,0,255);
                 transform.gameObject.tag = "Color4";
             } else {
                 spriteRenderer.color = new Color32(0,0,0,255);
@@ -36,17 +36,17 @@ public class StartscreenInput : MonoBehaviour
         }
 
         if (player1Or2 == "2") {
-            if (Input.GetKey(KeyCode.H)) {
-                spriteRenderer.color = new Color32(255,0,0,255);
-                transform.gameObject.tag = "Color1";
-            } else if (Input.GetKey(KeyCode.J)) {
-                spriteRenderer.color = new Color32(0,255,0,255);
-                transform.gameObject.tag = "Color2";
-            } else if (Input.GetKey(KeyCode.K)) {
+            if (Input.GetKey(KeyCode.H)) { // Blue button
                 spriteRenderer.color = new Color32(0,0,255,255);
+                transform.gameObject.tag = "Color1";
+            } else if (Input.GetKey(KeyCode.J)) { // Yellow
+                spriteRenderer.color = new Color32(255,255,0,255);
+                transform.gameObject.tag = "Color2";
+            } else if (Input.GetKey(KeyCode.K)) { // Red button
+                spriteRenderer.color = new Color32(255,0,0,255);
                 transform.gameObject.tag = "Color3";
-            } else if (Input.GetKey(KeyCode.L)) {
-                spriteRenderer.color = new Color32(255,0,255,255);
+            } else if (Input.GetKey(KeyCode.L)) { // Green button
+                spriteRenderer.color = new Color32(0,255,0,255);
                 transform.gameObject.tag = "Color4";
             } else {
                 spriteRenderer.color = new Color32(0,0,0,255);
