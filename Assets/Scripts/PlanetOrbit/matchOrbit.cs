@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class matchOrbit : MonoBehaviour
 {
+
+    public LevelLoader lvlLoader;
+
     public GameObject Goal;
     public GameObject Planet;
     public GameObject Flash;
@@ -84,6 +87,7 @@ public class matchOrbit : MonoBehaviour
 
                     if (wins == 3){
                         Debug.Log("DONE!");
+                        lvlLoader.LoadNextLevel("EndScene");
                     }
 
                 }
@@ -158,7 +162,7 @@ public class matchOrbit : MonoBehaviour
 
 
 
-
-
+        //public LevelLoader lvlLoader;
+        //lvlLoader.LoadNextLevel("OrbitPuzzle");
     }
 }
