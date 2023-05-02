@@ -11,5 +11,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/OrbitPuzzle.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/EndScene.unity
+    guid: 25fa329bd47782c46863169590f9db73
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: c01f2121b6bef2e4083777f8646a2671, type: 2}
