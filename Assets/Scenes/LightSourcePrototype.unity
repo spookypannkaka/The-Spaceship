@@ -425,6 +425,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1550418610022794090, guid: 2a5223838bece2141831a3442cfb85b1, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1550418610049592193, guid: 2a5223838bece2141831a3442cfb85b1, type: 3}
       propertyPath: m_Name
       value: LevelLoader
@@ -1428,7 +1432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8a82d2ab5ea2394887f3002e0c6db4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSensitivity: 1
+  moveSensitivity: 2
   outerRight: {x: 6, y: 4.15, z: 0}
   outerLeft: {x: -6, y: 4.15, z: 0}
 --- !u!1 &642089456
@@ -3386,7 +3390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8a82d2ab5ea2394887f3002e0c6db4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSensitivity: 0.6
+  moveSensitivity: 1.5
   outerRight: {x: 38, y: 3.87, z: 0}
   outerLeft: {x: 29, y: 3.87, z: 0}
 --- !u!1 &1506677698

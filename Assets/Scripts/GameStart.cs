@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GameStart : MonoBehaviour
 {
+    public LevelLoader lvlLoader;
+
     public GameObject player1Circle;
     public GameObject player2Circle;
     public bool isStartTriggered;
@@ -19,6 +21,7 @@ public class GameStart : MonoBehaviour
     {
         if (player1Circle.tag == player2Circle.tag && player1Circle.tag != "NoColor" && !isStartTriggered) {
             Debug.Log("trigger game start");
+            lvlLoader.LoadNextLevel("LightSourcePrototype");
             isStartTriggered = true;
         }
     }

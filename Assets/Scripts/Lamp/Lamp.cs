@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Lamp : MonoBehaviour
 {
-    [SerializeField] float moveSensitivity = 0.1f;
+    [SerializeField] float moveSensitivity = 10f;
     [SerializeField] Vector3 outerRight = new Vector3(-6.0f,4.15f,0.0f);
     [SerializeField] Vector3 outerLeft = new Vector3(-6.0f,4.15f,0.0f);
     float moveSpeed;
