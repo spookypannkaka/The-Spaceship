@@ -7,7 +7,7 @@ using UnityEngine.UI;
 // has not interacted with any key in a specified amount of time.
 public class IdleTimeout : MonoBehaviour
 {
-    [SerializeField] Slider slider; // Remove later
+    //[SerializeField] Slider slider; // Remove later
     [SerializeField] float secondsUntilTimeout;
     float timeLeft;
     GameManager gameManager;
@@ -17,8 +17,8 @@ public class IdleTimeout : MonoBehaviour
     }
 
     void Start() {
-        slider.maxValue = secondsUntilTimeout; // Remove later
-        slider.value = slider.maxValue; // Remove later
+        //slider.maxValue = secondsUntilTimeout; // Remove later
+        //slider.value = slider.maxValue; // Remove later
         timeLeft = secondsUntilTimeout;
     }
 
@@ -35,12 +35,12 @@ public class IdleTimeout : MonoBehaviour
     }
 
     void DecreaseTime() {
-        slider.value -= Time.deltaTime; // Remove later
+        //slider.value -= Time.deltaTime; // Remove later
         timeLeft -= Time.deltaTime;
     }
 
     void ResetTime() {
-        slider.value = slider.maxValue; // Remove later
+        //slider.value = slider.maxValue; // Remove later
         timeLeft = secondsUntilTimeout;
     }
 

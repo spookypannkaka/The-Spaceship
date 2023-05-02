@@ -30,7 +30,7 @@ public class StartscreenInput : MonoBehaviour
                 spriteRenderer.color = new Color32(255,0,255,255);
                 transform.gameObject.tag = "Color4";
             } else {
-                spriteRenderer.color = new Color32(0,0,0,0);
+                spriteRenderer.color = new Color32(0,0,0,255);
                 transform.gameObject.tag = "NoColor";
             }
         }
@@ -49,7 +49,7 @@ public class StartscreenInput : MonoBehaviour
                 spriteRenderer.color = new Color32(255,0,255,255);
                 transform.gameObject.tag = "Color4";
             } else {
-                spriteRenderer.color = new Color32(0,0,0,0);
+                spriteRenderer.color = new Color32(0,0,0,255);
                 transform.gameObject.tag = "NoColor";
             }
         }
