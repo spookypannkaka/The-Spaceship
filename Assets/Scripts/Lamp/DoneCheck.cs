@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class DoneCheck : MonoBehaviour
 {
+
+    public LevelLoader lvlLoader;
+
     // Start is called before the first frame update
     public bool playerOneDone = false; 
     public bool playerTwoDone = false; 
@@ -24,6 +27,7 @@ public class DoneCheck : MonoBehaviour
     public void checkIfBothDone(){
         if(playerOneDone && playerTwoDone){
             Debug.Log("ALL PLYER IS DONE");
+            lvlLoader.LoadNextLevel("GrabWithCrane");
         }
     }
 

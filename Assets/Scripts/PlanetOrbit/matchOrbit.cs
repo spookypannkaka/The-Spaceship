@@ -126,11 +126,13 @@ public class matchOrbit : MonoBehaviour
         if (!runningAnimation){
             
             radiusPlanet = Mathf.Abs(Input.mousePosition.x - Screen.width / 2) * mouseSensitivity / (Screen.width / 2);
+            
             if (radiusPlanet < minRadius){
                 radiusPlanet = minRadius;
             }
 
             velocityPlanet = Mathf.Abs(Input.mousePosition.y - Screen.width / 2) * mouseSensitivity / (Screen.width / 2);
+            
             
             ////control velocity of the planet/object in orbit
             //if (Input.GetKey(KeyCode.LeftArrow)) 
