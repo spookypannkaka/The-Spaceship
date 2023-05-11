@@ -10,8 +10,23 @@ public class matchOrbit : MonoBehaviour
     public GameObject Goal;
     public GameObject Planet;
     public GameObject Flash;
+    //////////////////////////////////////////////
+    List<Color> colorList;
+    List<GameObject> objectColorList;
+    public GameObject Color1;
+    public GameObject Color2;
+    public GameObject Color3;
+    public GameObject Color4;
+
     SpriteRenderer spriteRenderer;
     SpriteRenderer outline;
+    /// ////////////////////////////////////////////
+    List<SpriteRenderer> spriteColorList;
+    SpriteRenderer spriteColor1;
+    SpriteRenderer spriteColor2;
+    SpriteRenderer spriteColor3;
+    SpriteRenderer spriteColor4;
+
     public Sprite greenOutline;
     public Sprite redOutline;
 
@@ -34,9 +49,10 @@ public class matchOrbit : MonoBehaviour
     public float velocityGoal;
     public float radiusGoal;
     public float angleGoal;
+    public float angleCheck;
 
     public bool runningAnimation = false;
-    public float angleCheck;
+
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +64,11 @@ public class matchOrbit : MonoBehaviour
 
         spriteRenderer = Flash.GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = false;
+        ///////////////////////////////////////////////////
+        spriteColor1 = Color1.GetComponent<SpriteRenderer>();
+        spriteColor2 = Color2.GetComponent<SpriteRenderer>();
+        spriteColor3 = Color3.GetComponent<SpriteRenderer>();
+        spriteColor4 = Color4.GetComponent<SpriteRenderer>();
 
         GoalVelocities = new List<float>(){0.8f, 1.0f, -1.2f};
         GoalRadius = new List<float>(){3.0f, 4.0f, 4.2f};
@@ -55,13 +76,30 @@ public class matchOrbit : MonoBehaviour
 
         velocityGoal = GoalVelocities[0];
         radiusGoal = GoalRadius[0];
-        angleGoal = GoalAngles[0];    }
+        angleGoal = GoalAngles[0];
+
+        colorList = new List<Color>();
+        colorList.Add(Color.red);
+        colorList.Add(Color.green);
+        colorList.Add(Color.blue);
+        colorList.Add(Color.yellow);
+        spriteColorList = new List<SpriteRenderer>();
+        spriteColorList.Add(spriteColor1);
+        spriteColorList.Add(spriteColor2);
+        spriteColorList.Add(spriteColor3);
+        spriteColorList.Add(spriteColor4);
+        objectColorList = new List<GameObject>();
+        objectColorList.Add(Color1);
+        objectColorList.Add(Color2);
+        objectColorList.Add(Color3);
+        objectColorList.Add(Color4);
+    }
 
     // Update is called once per frame
     void Update()
     {
         float distance = Vector3.Distance(Goal.transform.position,Planet.transform.position);
-        if ((distance < successDistance)){
+        if (distance < successDistance){
 
             if (!runningAnimation){
 
@@ -85,6 +123,16 @@ public class matchOrbit : MonoBehaviour
                     velocityPlanet = velocityGoal;
                     radiusPlanet = radiusGoal;
 
+                    ////////////////////////////////////////////////////
+                    //Enable colored circles
+                    for (int i = 0; i < 4; i++)
+                    {
+                        Debug.Log("Color at index " + i + ": " + colorList[i]);
+                        spriteColorList[i].material.color = colorList[i];
+                        spriteColorList[i].enabled = true;
+                    }
+
+                    //reset timer
                     gameStateTimer = 0;
 
                     if (wins == 3){
@@ -107,21 +155,46 @@ public class matchOrbit : MonoBehaviour
 
 
         if (runningAnimation){
-                //Runs after animation and enables controls again
 
-                if(spriteRenderer.enabled){
-                    spriteRenderer.enabled = false;
-                } else {
-                    spriteRenderer.enabled = true;
+            //flash effect!
+            if (spriteRenderer.enabled){
+                spriteRenderer.enabled = false;
+            } else {
+                spriteRenderer.enabled = true;
+            }
+
+            ///////////////////////////////////////////////
+            //Check if they are close enough to a color and also check if the press the right key
+            //Denna loop fungerar nu men kan behöva strykas. Vi kanske endast måste jämföra med närmaste färg.
+            for (int i = 0; i < 4; i++)
+            {
+                float distanceToColor = Vector3.Distance(objectColorList[i].transform.position, Planet.transform.position);
+                
+                if (distanceToColor < successDistance)
+                {
+
+                    if (Input.GetKey(KeyCode.A))
+                    {
+                        spriteColorList[i].enabled = false;
+                    }
+
                 }
 
-                if (angleCheck+(2*3.14f) <= angleGoal){
-                    angleGoal = GoalAngles[wins];
-                    velocityGoal = GoalVelocities[wins];
-                    radiusGoal = GoalRadius[wins];
-                    runningAnimation = false;
-                    spriteRenderer.enabled = false;
+            }
+
+            //Turn off animation, enable controls, hide colors
+            if ((angleCheck+(2*3.14f) <= angleGoal) || (!runningAnimation)){
+                angleGoal = GoalAngles[wins];
+                velocityGoal = GoalVelocities[wins];
+                radiusGoal = GoalRadius[wins];
+                runningAnimation = false;
+                spriteRenderer.enabled = false;
+                for (int i = 0; i < 4; i++)
+                {
+                    spriteColorList[i].enabled = false;
                 }
+            }
+
 
         }
 
