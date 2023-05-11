@@ -512,6 +512,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1550418610022794090, guid: 2a5223838bece2141831a3442cfb85b1, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 1550418610049592193, guid: 2a5223838bece2141831a3442cfb85b1, type: 3}
       propertyPath: m_Name
       value: LevelLoader
@@ -1069,7 +1073,7 @@ MonoBehaviour:
   Flash: {fileID: 6098444}
   greenOutline: {fileID: 3286163911610860551, guid: d546df67fab11274ebc46fcc2bac5ee4, type: 3}
   redOutline: {fileID: 3286163911610860551, guid: 41864739956198e4a8535cd139ce861a, type: 3}
-  mouseSensitivity: 1
+  mouseSensitivity: 2.5
   successDistance: 0.6
   maxVelocity: 2
   minRadius: 1.5

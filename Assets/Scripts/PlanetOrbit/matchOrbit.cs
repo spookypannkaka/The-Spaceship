@@ -41,14 +41,16 @@ public class matchOrbit : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log(Screen.width);
+        Debug.Log(Screen.height);
 
         outline = Goal.GetComponent<SpriteRenderer>();
 
         spriteRenderer = Flash.GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = false;
 
-        GoalVelocities = new List<float>(){0.8f, 1.0f, 1.2f};
-        GoalRadius = new List<float>(){3.0f, 4.0f, 5.0f};
+        GoalVelocities = new List<float>(){0.8f, 1.0f, -1.2f};
+        GoalRadius = new List<float>(){3.0f, 4.0f, 4.2f};
         GoalAngles = new List<float>(){8.0f, 3.0f, 6.0f};
 
         velocityGoal = GoalVelocities[0];
@@ -125,14 +127,16 @@ public class matchOrbit : MonoBehaviour
 
         if (!runningAnimation){
             
-            radiusPlanet = Mathf.Abs(Input.mousePosition.x - Screen.width / 2) * mouseSensitivity / (Screen.width / 2);
+            //radiusPlanet = Mathf.Abs(Input.mousePosition.x - Screen.width) * mouseSensitivity / (Screen.width);
+            radiusPlanet = minRadius + Input.mousePosition.x*mouseSensitivity*1.2f/Screen.width;
+            Debug.Log(radiusPlanet);
             
             if (radiusPlanet < minRadius){
                 radiusPlanet = minRadius;
             }
 
-            velocityPlanet = (Input.mousePosition.y - Screen.height / 2) * mouseSensitivity / (Screen.width / 2);
-            Debug.Log(velocityPlanet);
+            velocityPlanet = (Input.mousePosition.y - Screen.height / 2) * mouseSensitivity / (Screen.height / 2);
+            //Debug.Log(velocityPlanet);
             
             ////control velocity of the planet/object in orbit
             //if (Input.GetKey(KeyCode.LeftArrow)) 
