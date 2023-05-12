@@ -38,6 +38,7 @@ public class matchOrbit : MonoBehaviour
     public float gameStateTimer = 0;
     public float timerLimit = 2f;
     public int wins = 0;
+    public int winsToWin = 3;
     public List<float> GoalVelocities;
     public List<float> GoalRadius;
     public List<float> GoalAngles;
@@ -52,6 +53,10 @@ public class matchOrbit : MonoBehaviour
     public float angleCheck;
 
     public bool runningAnimation = false;
+    private bool pushedButton = false;
+    private bool beenInCircle = false;
+    private int preCircleIndex = 10;
+    private int hitCounter = 0;
 
 
     // Start is called before the first frame update
@@ -111,10 +116,12 @@ public class matchOrbit : MonoBehaviour
 
                 //If you have been close enough for sertain time
                 if (gameStateTimer >= timerLimit){
+                    
+                    //Add a win
                     wins+=1;
 
 
-                    //Now it is time to take photo of the planet:
+                    //Now it is time to take photo of the planet and play guitar hero.
                     runningAnimation = true;
 
                     //Snap the planet to the goal
@@ -124,10 +131,15 @@ public class matchOrbit : MonoBehaviour
                     radiusPlanet = radiusGoal;
 
                     ////////////////////////////////////////////////////
-                    //Enable colored circles
+                    //Enable colored circles and position them!
+                    float angleInc = 0.4f*3.14f; //Position the colors 90 degrees away from satelite (planet in this code...)
+                    float angleForColor = anglePlanet + angleInc;
                     for (int i = 0; i < 4; i++)
                     {
-                        Debug.Log("Color at index " + i + ": " + colorList[i]);
+                        Vector2 position = new Vector2(Mathf.Sin(angleForColor), Mathf.Cos(angleForColor)) * radiusPlanet;
+                        objectColorList[i].transform.position = position;
+                        angleForColor += angleInc;
+
                         spriteColorList[i].material.color = colorList[i];
                         spriteColorList[i].enabled = true;
                     }
@@ -135,7 +147,7 @@ public class matchOrbit : MonoBehaviour
                     //reset timer
                     gameStateTimer = 0;
 
-                    if (wins == 3){
+                    if (wins == winsToWin){
                         Debug.Log("DONE!");
                         lvlLoader.LoadNextLevel("EndScene");
                     }
@@ -150,6 +162,8 @@ public class matchOrbit : MonoBehaviour
             outline.sprite = redOutline;
         }
 
+
+        //Moving
         anglePlanet += velocityPlanet * Time.deltaTime;
         angleGoal += velocityGoal * Time.deltaTime;
 
@@ -165,25 +179,53 @@ public class matchOrbit : MonoBehaviour
 
             ///////////////////////////////////////////////
             //Check if they are close enough to a color and also check if the press the right key
-            //Denna loop fungerar nu men kan behöva strykas. Vi kanske endast måste jämföra med närmaste färg.
+            float shortestDistance = 10000f;
+            int currentIndex = 10;
             for (int i = 0; i < 4; i++)
             {
                 float distanceToColor = Vector3.Distance(objectColorList[i].transform.position, Planet.transform.position);
-                
-                if (distanceToColor < successDistance)
+                if (distanceToColor < shortestDistance)
                 {
-
-                    if (Input.GetKey(KeyCode.A))
-                    {
-                        spriteColorList[i].enabled = false;
-                    }
+                    shortestDistance = distanceToColor;
+                    currentIndex = i;
 
                 }
+            }
+            if (preCircleIndex != currentIndex)
+            {
+                preCircleIndex = currentIndex;
+                beenInCircle = false;
+                pushedButton = false;
+            }
 
+            if (shortestDistance < successDistance)
+            {
+                beenInCircle = true;
+                if (Input.GetKey(KeyCode.A))
+                {
+                    spriteColorList[currentIndex].enabled = false;
+                    if(!pushedButton)
+                    {
+                        hitCounter++;
+                        pushedButton = true;//pushed button
+                        Debug.Log(hitCounter);
+                    }
+                    
+                }
+
+            } else
+            {
+                if (beenInCircle && !pushedButton)
+                {
+                    preCircleIndex = 10; //reset
+                    runningAnimation = false;
+                }
             }
 
             //Turn off animation, enable controls, hide colors
-            if ((angleCheck+(2*3.14f) <= angleGoal) || (!runningAnimation)){
+            //Vill vi låta dem snurra ett varv även om de missar en färg? (angleCheck + (2 * 3.14f) <= angleGoal) 
+            if (hitCounter == 4 || (!runningAnimation)){
+                hitCounter = 0;
                 angleGoal = GoalAngles[wins];
                 velocityGoal = GoalVelocities[wins];
                 radiusGoal = GoalRadius[wins];
@@ -200,26 +242,15 @@ public class matchOrbit : MonoBehaviour
 
         if (!runningAnimation){
             
-            //radiusPlanet = Mathf.Abs(Input.mousePosition.x - Screen.width) * mouseSensitivity / (Screen.width);
             radiusPlanet = minRadius + Input.mousePosition.x*mouseSensitivity*1.2f/Screen.width;
-            Debug.Log(radiusPlanet);
+            //Debug.Log(radiusPlanet);
             
             if (radiusPlanet < minRadius){
                 radiusPlanet = minRadius;
             }
 
             velocityPlanet = (Input.mousePosition.y - Screen.height / 2) * mouseSensitivity / (Screen.height / 2);
-            //Debug.Log(velocityPlanet);
-            
-            ////control velocity of the planet/object in orbit
-            //if (Input.GetKey(KeyCode.LeftArrow)) 
-            //{
-            //    velocityPlanet -= 0.01f;
-            //}
-            //else if (Input.GetKey(KeyCode.RightArrow))
-            //{
-            //    velocityPlanet += 0.01f;
-            //}
+
 
             if(velocityPlanet > maxVelocity){
                 velocityPlanet = maxVelocity;
@@ -240,8 +271,5 @@ public class matchOrbit : MonoBehaviour
         Planet.transform.position = offset;
 
 
-
-        //public LevelLoader lvlLoader;
-        //lvlLoader.LoadNextLevel("OrbitPuzzle");
     }
 }
