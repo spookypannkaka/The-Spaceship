@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.InteropServices;
 
 public class matchOrbit : MonoBehaviour
 {
@@ -8,9 +9,8 @@ public class matchOrbit : MonoBehaviour
     public LevelLoader lvlLoader;
 
     public GameObject Goal;
-    public GameObject Planet;
+    public GameObject Satelite;
     public GameObject Flash;
-    //////////////////////////////////////////////
     List<Color> colorList;
     List<GameObject> objectColorList;
     public GameObject Color1;
@@ -20,7 +20,6 @@ public class matchOrbit : MonoBehaviour
 
     SpriteRenderer spriteRenderer;
     SpriteRenderer outline;
-    /// ////////////////////////////////////////////
     List<SpriteRenderer> spriteColorList;
     SpriteRenderer spriteColor1;
     SpriteRenderer spriteColor2;
@@ -43,18 +42,18 @@ public class matchOrbit : MonoBehaviour
     public List<float> GoalRadius;
     public List<float> GoalAngles;
 
-    public float velocityPlanet = 1f;
-    public float radiusPlanet = 1f;
-    public float anglePlanet = 1f;
+    public float velocitySatelite = 1f;
+    public float radiusSatelite = 1f;
+    public float angleSatelite = 1f;
 
     public float velocityGoal;
     public float radiusGoal;
     public float angleGoal;
-    public float angleCheck;
 
     public bool runningAnimation = false;
     private bool pushedButton = false;
     private bool beenInCircle = false;
+    private bool failed = false;
     private int preCircleIndex = 10;
     private int hitCounter = 0;
 
@@ -69,7 +68,7 @@ public class matchOrbit : MonoBehaviour
 
         spriteRenderer = Flash.GetComponent<SpriteRenderer>();
         spriteRenderer.enabled = false;
-        ///////////////////////////////////////////////////
+
         spriteColor1 = Color1.GetComponent<SpriteRenderer>();
         spriteColor2 = Color2.GetComponent<SpriteRenderer>();
         spriteColor3 = Color3.GetComponent<SpriteRenderer>();
@@ -103,7 +102,7 @@ public class matchOrbit : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float distance = Vector3.Distance(Goal.transform.position,Planet.transform.position);
+        float distance = Vector3.Distance(Goal.transform.position,Satelite.transform.position);
         if (distance < successDistance){
 
             if (!runningAnimation){
@@ -116,27 +115,21 @@ public class matchOrbit : MonoBehaviour
 
                 //If you have been close enough for sertain time
                 if (gameStateTimer >= timerLimit){
-                    
-                    //Add a win
-                    wins+=1;
-
 
                     //Now it is time to take photo of the planet and play guitar hero.
                     runningAnimation = true;
 
                     //Snap the planet to the goal
-                    anglePlanet = angleGoal;
-                    angleCheck = anglePlanet;
-                    velocityPlanet = velocityGoal;
-                    radiusPlanet = radiusGoal;
+                    angleSatelite = angleGoal;
+                    velocitySatelite = velocityGoal;
+                    radiusSatelite = radiusGoal;
 
-                    ////////////////////////////////////////////////////
                     //Enable colored circles and position them!
                     float angleInc = 0.4f*3.14f; //Position the colors 90 degrees away from satelite (planet in this code...)
-                    float angleForColor = anglePlanet + angleInc;
+                    float angleForColor = angleSatelite + angleInc;
                     for (int i = 0; i < 4; i++)
                     {
-                        Vector2 position = new Vector2(Mathf.Sin(angleForColor), Mathf.Cos(angleForColor)) * radiusPlanet;
+                        Vector2 position = new Vector2(Mathf.Sin(angleForColor), Mathf.Cos(angleForColor)) * radiusSatelite;
                         objectColorList[i].transform.position = position;
                         angleForColor += angleInc;
 
@@ -147,24 +140,19 @@ public class matchOrbit : MonoBehaviour
                     //reset timer
                     gameStateTimer = 0;
 
-                    if (wins == winsToWin){
-                        Debug.Log("DONE!");
-                        lvlLoader.LoadNextLevel("EndScene");
-                    }
-
                 }
 
             } 
                 
 
-        } else {
+        } else { //They are outside of the successrange
             gameStateTimer = 0;
             outline.sprite = redOutline;
         }
 
 
-        //Moving
-        anglePlanet += velocityPlanet * Time.deltaTime;
+        //Moving satelite and goal
+        angleSatelite += velocitySatelite * Time.deltaTime;
         angleGoal += velocityGoal * Time.deltaTime;
 
 
@@ -177,13 +165,12 @@ public class matchOrbit : MonoBehaviour
                 spriteRenderer.enabled = true;
             }
 
-            ///////////////////////////////////////////////
-            //Check if they are close enough to a color and also check if the press the right key
+            //Check if they are close enough to a color and check if the press the right key
             float shortestDistance = 10000f;
             int currentIndex = 10;
             for (int i = 0; i < 4; i++)
             {
-                float distanceToColor = Vector3.Distance(objectColorList[i].transform.position, Planet.transform.position);
+                float distanceToColor = Vector3.Distance(objectColorList[i].transform.position, Satelite.transform.position);
                 if (distanceToColor < shortestDistance)
                 {
                     shortestDistance = distanceToColor;
@@ -191,6 +178,7 @@ public class matchOrbit : MonoBehaviour
 
                 }
             }
+            //This let us reset variables ONLY ONCE every time a new circle is the closest one
             if (preCircleIndex != currentIndex)
             {
                 preCircleIndex = currentIndex;
@@ -201,6 +189,7 @@ public class matchOrbit : MonoBehaviour
             if (shortestDistance < successDistance)
             {
                 beenInCircle = true;
+                //Did they press a?
                 if (Input.GetKey(KeyCode.A))
                 {
                     spriteColorList[currentIndex].enabled = false;
@@ -211,52 +200,92 @@ public class matchOrbit : MonoBehaviour
                         Debug.Log(hitCounter);
                     }
                     
+                } else if (Input.anyKeyDown && !Input.GetKey(KeyCode.A)) //Did they press any other key?
+                {
+                    Debug.Log("Fel! tryck tangenten a");
+                    runningAnimation = false;
+                    failed = true;
                 }
 
             } else
             {
                 if (beenInCircle && !pushedButton)
                 {
-                    preCircleIndex = 10; //reset
+                    Debug.Log("DU MISSA HAHAHAHAH!");
                     runningAnimation = false;
+                    failed = true;
                 }
             }
 
             //Turn off animation, enable controls, hide colors
-            //Vill vi låta dem snurra ett varv även om de missar en färg? (angleCheck + (2 * 3.14f) <= angleGoal) 
+            //Vill vi låta dem snurra ett varv även om de missar en färg?
             if (hitCounter == 4 || (!runningAnimation)){
-                hitCounter = 0;
-                angleGoal = GoalAngles[wins];
-                velocityGoal = GoalVelocities[wins];
-                radiusGoal = GoalRadius[wins];
-                runningAnimation = false;
+
+                hitCounter = 0; //reset counter for how many they hit
+                preCircleIndex = 10; //This also need a reset
+
+                //Disable rendering for all colors
                 spriteRenderer.enabled = false;
                 for (int i = 0; i < 4; i++)
                 {
                     spriteColorList[i].enabled = false;
                 }
+
+                //add a point if they didnt fail
+                if (!failed)
+                {
+                    wins += 1;
+
+                }
+                failed = false;
+
+                //Check if they won!
+                if (wins == winsToWin)
+                {
+                    Debug.Log("DONE!");
+                    lvlLoader.LoadNextLevel("EndScene"); //Load next scene
+                }
+
+                //Progress mission
+                angleGoal = GoalAngles[wins];
+                velocityGoal = GoalVelocities[wins];
+                radiusGoal = GoalRadius[wins];
+
+                //Back to matching orbits
+                runningAnimation = false; 
             }
 
 
         }
 
         if (!runningAnimation){
+
             
-            radiusPlanet = minRadius + Input.mousePosition.x*mouseSensitivity*1.2f/Screen.width;
-            //Debug.Log(radiusPlanet);
-            
-            if (radiusPlanet < minRadius){
-                radiusPlanet = minRadius;
+            // Update the mouse position if it goes of screen
+            //Debug.Log(Input.mousePosition.x);
+            Vector3 mousePosition = Input.mousePosition;
+            if (mousePosition.x > 1920)
+            {
+                UnityEngine.InputSystem.Mouse.current.WarpCursorPosition(new Vector2(Screen.width, mousePosition.y));
+            } else if (mousePosition.x < 0)
+            {
+                UnityEngine.InputSystem.Mouse.current.WarpCursorPosition(new Vector2(0, mousePosition.y));
             }
 
-            velocityPlanet = (Input.mousePosition.y - Screen.height / 2) * mouseSensitivity / (Screen.height / 2);
-
-
-            if(velocityPlanet > maxVelocity){
-                velocityPlanet = maxVelocity;
+            radiusSatelite = minRadius + Input.mousePosition.x*mouseSensitivity*1.2f/Screen.width;
+            //Debug.Log(radiusSatelite);
+            
+            //Calculate and limit new radius and velocities
+            if (radiusSatelite < minRadius){
+                radiusSatelite = minRadius;
             }
-            if(velocityPlanet < -maxVelocity){
-                velocityPlanet = -maxVelocity;
+
+            velocitySatelite = (Input.mousePosition.y - Screen.height / 2) * mouseSensitivity / (Screen.height / 2);
+            if(velocitySatelite > maxVelocity){
+                velocitySatelite = maxVelocity;
+            }
+            if(velocitySatelite < -maxVelocity){
+                velocitySatelite = -maxVelocity;
             }
         }
 
@@ -265,10 +294,10 @@ public class matchOrbit : MonoBehaviour
         Vector2 offsetGoal = new Vector2(Mathf.Sin(angleGoal), Mathf.Cos(angleGoal))*radiusGoal;
         Goal.transform.position = offsetGoal;
 
-        //control size of orbit
+        //control size of satelite
         
-        Vector2 offset = new Vector2(Mathf.Sin(anglePlanet), Mathf.Cos(anglePlanet))*radiusPlanet;
-        Planet.transform.position = offset;
+        Vector2 offset = new Vector2(Mathf.Sin(angleSatelite), Mathf.Cos(angleSatelite))*radiusSatelite;
+        Satelite.transform.position = offset;
 
 
     }
