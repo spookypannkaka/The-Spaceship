@@ -119,6 +119,9 @@ public class matchOrbit : MonoBehaviour
                     //Now it is time to take photo of the planet and play guitar hero.
                     runningAnimation = true;
 
+                    //Activate white scan triangle
+                    spriteRenderer.enabled = true;
+
                     //Snap the planet to the goal
                     angleSatelite = angleGoal;
                     velocitySatelite = velocityGoal;
@@ -158,13 +161,6 @@ public class matchOrbit : MonoBehaviour
 
         if (runningAnimation){
 
-            //flash effect!
-            if (spriteRenderer.enabled){
-                spriteRenderer.enabled = false;
-            } else {
-                spriteRenderer.enabled = true;
-            }
-
             //Check if they are close enough to a color and check if the press the right key
             float shortestDistance = 10000f;
             int currentIndex = 10;
@@ -197,7 +193,10 @@ public class matchOrbit : MonoBehaviour
                     {
                         hitCounter++;
                         pushedButton = true;//pushed button
+                        spriteRenderer.enabled = true;
                         Debug.Log(hitCounter);
+
+
                     }
                     
                 } else if (Input.anyKeyDown && !Input.GetKey(KeyCode.A)) //Did they press any other key?
@@ -230,6 +229,9 @@ public class matchOrbit : MonoBehaviour
                 {
                     spriteColorList[i].enabled = false;
                 }
+
+                //Disable flashtriangle
+                spriteRenderer.enabled = false;
 
                 //add a point if they didnt fail
                 if (!failed)
