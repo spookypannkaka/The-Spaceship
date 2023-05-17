@@ -59,3 +59,6 @@ TagManager:
   - name: Objects
     uniqueID: 1426142587
     locked: 0
+  - name: Particles
+    uniqueID: 1571585565
+    locked: 0
