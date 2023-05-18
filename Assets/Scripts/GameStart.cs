@@ -10,10 +10,13 @@ public class GameStart : MonoBehaviour
     public GameObject player2Circle;
     public bool isStartTriggered;
 
+    Animator animator = null;
+
     // Start is called before the first frame update
     void Start()
     {
-        Cursor.visible = false;
+        animator = GetComponent<Animator>();
+        
     }
 
     // Update is called once per frame
@@ -21,7 +24,12 @@ public class GameStart : MonoBehaviour
     {
         if (player1Circle.tag == player2Circle.tag && player1Circle.tag != "NoColor" && !isStartTriggered) {
             Debug.Log("trigger game start");
-            lvlLoader.LoadNextLevel("LightSourcePrototype");
+            
+            //animator.SetTrigger("moveObject");
+           
+
+            
+            //lvlLoader.LoadNextLevel("LightSourcePrototype");
             isStartTriggered = true;
         }
     }
