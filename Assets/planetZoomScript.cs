@@ -6,6 +6,8 @@ public class planetZoomScript : MonoBehaviour
 {
     Animator anim2;
 
+    public LevelLoader lvlLoader;
+
     public GameObject player1Circle;
     public GameObject player2Circle;
     public bool isStartTriggered;
@@ -23,6 +25,16 @@ public class planetZoomScript : MonoBehaviour
         if(player1Circle.tag == player2Circle.tag && player1Circle.tag != "NoColor" && !isStartTriggered){
             Debug.Log("trigger game start33333");
             anim2.SetTrigger("makePlanetZoom");
+            StartCoroutine(callLvlLoader());
         }
     }
+
+    IEnumerator callLvlLoader()
+    {    
+        
+        yield return new WaitForSeconds(5);
+
+        lvlLoader.LoadNextLevel("LightSourcePrototype");
+    }
+
 }

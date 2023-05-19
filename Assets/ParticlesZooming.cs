@@ -15,7 +15,7 @@ public class ParticlesZooming : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        anim2 = GetComponent<Animator>();
+        anim2 = particles.GetComponent<Animator>();
         //particles = GetComponent<GameObject>();
         particles.SetActive(false);
     }
