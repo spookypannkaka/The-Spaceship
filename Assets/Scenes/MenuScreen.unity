@@ -1229,6 +1229,7 @@ GameObject:
   - component: {fileID: 706832575}
   - component: {fileID: 706832574}
   - component: {fileID: 706832577}
+  - component: {fileID: 706832578}
   m_Layer: 0
   m_Name: Mars
   m_TagString: Untagged
@@ -1316,7 +1317,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 706832573}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.59, y: -1.39, z: 0}
+  m_LocalPosition: {x: 2.05, y: 0.52, z: 0}
   m_LocalScale: {x: 0.21528, y: 0.21528, z: 1.07642}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1343,6 +1344,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &706832578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 706832573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e659c668c8cef184fbe4a21d2be81fa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player1Circle: {fileID: 26328833}
+  player2Circle: {fileID: 1086081655}
+  isStartTriggered: 0
 --- !u!1 &743577860
 GameObject:
   m_ObjectHideFlags: 0
@@ -1809,6 +1825,7 @@ GameObject:
   - component: {fileID: 1246389523}
   - component: {fileID: 1246389522}
   - component: {fileID: 1246389525}
+  - component: {fileID: 1246389526}
   m_Layer: 0
   m_Name: Earth
   m_TagString: Untagged
@@ -1923,6 +1940,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &1246389526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246389521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b32852c51b7c0d848993bbe7f35779aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player1Circle: {fileID: 26328833}
+  player2Circle: {fileID: 1086081655}
+  isStartTriggered: 0
 --- !u!1 &1338441559
 GameObject:
   m_ObjectHideFlags: 0
@@ -7361,7 +7393,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1884897172}
   - component: {fileID: 1884897174}
-  - component: {fileID: 1884897173}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Untagged
@@ -7387,21 +7418,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 16
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1884897173
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1884897171}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a1e93d93ff012c4e90eb2e0d3099884, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player1Circle: {fileID: 26328833}
-  player2Circle: {fileID: 1086081655}
-  isStartTriggered: 0
 --- !u!95 &1884897174
 Animator:
   serializedVersion: 5
