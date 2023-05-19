@@ -478,6 +478,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1550418610049592195, guid: 2a5223838bece2141831a3442cfb85b1, type: 3}
+      propertyPath: audioFader
+      value: 
+      objectReference: {fileID: 1905725550}
+    - target: {fileID: 1550418610049592195, guid: 2a5223838bece2141831a3442cfb85b1, type: 3}
       propertyPath: transition
       value: 
       objectReference: {fileID: 65054823}
