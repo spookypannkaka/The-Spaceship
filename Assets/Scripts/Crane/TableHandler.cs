@@ -16,6 +16,8 @@ public class TableHandler : MonoBehaviour
     int counter = 0;
 
     public GameObject smoke; 
+    [SerializeField] private AudioSource correct;
+    [SerializeField] private AudioSource fail;
 
     // Start is called before the first frame update
     void Start()
@@ -27,9 +29,9 @@ public class TableHandler : MonoBehaviour
         itemsOnBench[numberOfItemsOnBench] = item;
         numberOfItemsOnBench++;
         if(numberOfItemsOnBench == 1){
-             item.transform.position = tablePosition1;
-             originalPos1 = OgPosition;
-       
+            item.transform.position = tablePosition1;
+            originalPos1 = OgPosition;
+
         }
         else if(numberOfItemsOnBench == 2){
             item.transform.position = tablePosition2;
@@ -39,8 +41,8 @@ public class TableHandler : MonoBehaviour
 
     public void resetTable(){
         itemsOnBench[0].transform.position = originalPos1;
-         itemsOnBench[1].transform.position = originalPos2;
-          numberOfItemsOnBench = 0;
+        itemsOnBench[1].transform.position = originalPos2;
+        numberOfItemsOnBench = 0;
     }
 
     public void clearTable(){
@@ -89,23 +91,26 @@ public class TableHandler : MonoBehaviour
 
     IEnumerator checkItems(){
         smoke.SetActive(true);
+        numberOfItemsOnBench = 0;
         yield return new WaitForSeconds(2);
-            if (itemsOnBench[0].tag == itemsOnBench[1].tag) {
-                moveToStand();
-                counter+=1;
-                
-        } else {
+        if (itemsOnBench[0].tag == itemsOnBench[1].tag) {
+            moveToStand();
+            correct.Play();
+            counter+=1;  
+        } 
+        else if(itemsOnBench[0].tag != itemsOnBench[1].tag){
             resetTable();
+            fail.Play();
         }
-         yield return new WaitForSeconds(1);
-         smoke.SetActive(false);
+        yield return new WaitForSeconds(1);
+        smoke.SetActive(false);
     }
 
     // Update is called once per frame
     void Update()
     {
-         if(numberOfItemsOnBench == 2){
-             StartCoroutine(checkItems()); 
+        if(numberOfItemsOnBench == 2){
+            StartCoroutine(checkItems()); 
         }
 
         if (counter==4){
