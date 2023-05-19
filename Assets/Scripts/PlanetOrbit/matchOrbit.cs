@@ -217,7 +217,7 @@ public class matchOrbit : MonoBehaviour
             }
 
             //Turn off animation, enable controls, hide colors
-            //Vill vi låta dem snurra ett varv även om de missar en färg?
+            //Vill vi lï¿½ta dem snurra ett varv ï¿½ven om de missar en fï¿½rg?
             if (hitCounter == 4 || (!runningAnimation)){
 
                 hitCounter = 0; //reset counter for how many they hit
@@ -266,7 +266,7 @@ public class matchOrbit : MonoBehaviour
             // Update the mouse position if it goes of screen
             //Debug.Log(Input.mousePosition.x);
             Vector3 mousePosition = Input.mousePosition;
-            if (mousePosition.x > 1920)
+            if (mousePosition.x > Screen.width)
             {
                 UnityEngine.InputSystem.Mouse.current.WarpCursorPosition(new Vector2(Screen.width, mousePosition.y));
             } else if (mousePosition.x < 0)
