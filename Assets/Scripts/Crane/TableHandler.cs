@@ -15,10 +15,12 @@ public class TableHandler : MonoBehaviour
     public LevelLoader lvlLoader;
     int counter = 0;
 
+    public GameObject smoke; 
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        smoke.SetActive(false);
     }
 
     public void addItemToTable(GameObject item, Vector3 OgPosition){
@@ -55,40 +57,39 @@ public class TableHandler : MonoBehaviour
             GameObject helm = GameObject.Find("helmetPrefab");
             GameObject helm1 = Instantiate(helm);
             GameObject helm2 = Instantiate(helm);
-            helm1.transform.position = new Vector3(2.65f,0.7f,0.0f);
-            helm2.transform.position = new Vector3(11.1f,0.7f,0.0f);
+            helm1.transform.position = new Vector3(2.64f,0.7f,0.0f);
+            helm2.transform.position = new Vector3(11.0f,0.7f,0.0f);
             clearTable();
         }
         else if(itemsOnBench[0].tag == "PackGas"){
             GameObject jetpack = GameObject.Find("packPrefab");
             GameObject jetpack1 = Instantiate(jetpack);
             GameObject jetpack2 = Instantiate(jetpack);
-            jetpack1.transform.position = new Vector3(1.92f,-1.41f,0.0f);
-            jetpack2.transform.position = new Vector3(10.36f,-1.41f,0.0f);
+            jetpack1.transform.position = new Vector3(2.13f,-0.613f,0.0f);
+            jetpack2.transform.position = new Vector3(10.48f,-0.65f,0.0f);
             clearTable();
         }
         else if(itemsOnBench[0].tag == "SuitThread"){
             GameObject suit = GameObject.Find("suitPrefab");
             GameObject suit1 = Instantiate(suit);
             GameObject suit2 = Instantiate(suit);
-            suit1.transform.position = new Vector3(2.52f,-1.41f,0.0f);
-            suit2.transform.position = new Vector3(10.98f,-1.41f,0.0f);
+            suit1.transform.position = new Vector3(2.54f,-1.4f,0.0f);
+            suit2.transform.position = new Vector3(10.94f,-1.4f,0.0f);
             clearTable();
         }
         else if(itemsOnBench[0].tag == "BootsBrush"){
             GameObject boots = GameObject.Find("bootsPrefab");
             GameObject boots1 = Instantiate(boots);
             GameObject boots2 = Instantiate(boots);
-            boots1.transform.position = new Vector3(2.28f,-0.25f,0.0f);
-            boots2.transform.position = new Vector3(10.36f,-0.25f,0.0f);
+            boots1.transform.position = new Vector3(1.17f,-3.14f,0.0f);
+            boots2.transform.position = new Vector3(12.32f,-3.26f,0.0f);
             clearTable();
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-         if(numberOfItemsOnBench == 2){
+    IEnumerator checkItems(){
+        smoke.SetActive(true);
+        yield return new WaitForSeconds(2);
             if (itemsOnBench[0].tag == itemsOnBench[1].tag) {
                 moveToStand();
                 counter+=1;
@@ -96,6 +97,15 @@ public class TableHandler : MonoBehaviour
         } else {
             resetTable();
         }
+         yield return new WaitForSeconds(1);
+         smoke.SetActive(false);
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+         if(numberOfItemsOnBench == 2){
+             StartCoroutine(checkItems()); 
         }
 
         if (counter==4){

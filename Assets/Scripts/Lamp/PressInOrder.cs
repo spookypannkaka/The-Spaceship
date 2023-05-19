@@ -77,8 +77,8 @@ public class PressInOrder : MonoBehaviour
         }
         if (color == "Red")
         {
-             inputColors[indicatorCounter] = "Red";
-             changeColor(Color.red,indicatorCounter);
+            inputColors[indicatorCounter] = "Red";
+            changeColor(Color.red,indicatorCounter);
             
         }
         if (color == "Yellow")
@@ -98,7 +98,7 @@ public class PressInOrder : MonoBehaviour
         ableToMove = true;
     }
 
-     IEnumerator ResetInput(){
+IEnumerator ResetInput(){
         changeColorFeedBack(Color.red);
         yield return new WaitForSeconds(1);
         resetInput();
