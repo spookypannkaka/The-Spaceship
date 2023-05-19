@@ -2301,7 +2301,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.15
+      scalar: 2.29
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -2371,11 +2371,11 @@ ParticleSystem:
         - serializedVersion: 3
           time: 1
           value: 1
-          inSlope: 0
-          outSlope: 0
+          inSlope: -2.5118573
+          outSlope: -2.5118573
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
+          inWeight: 0.24747485
           outWeight: 0.33333334
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -2850,7 +2850,7 @@ ParticleSystem:
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
-    radiusThickness: 1
+    radiusThickness: 0
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
@@ -2933,7 +2933,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.2
+      value: 0.1
       mode: 0
       spread: 0
       speed:
@@ -2990,7 +2990,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
     arc:
-      value: 200
+      value: 202.67
       mode: 0
       spread: 0
       speed:
@@ -3177,13 +3177,13 @@ ParticleSystem:
           inWeight: 0
           outWeight: 0.26767674
         - serializedVersion: 3
-          time: 0.77777374
-          value: 0.54054064
-          inSlope: 2
-          outSlope: 2
+          time: 0.7979761
+          value: 0.21621746
+          inSlope: 0.83245134
+          outSlope: 0.83245134
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0
+          inWeight: 0.28845823
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -3671,7 +3671,7 @@ ParticleSystem:
     flipU: 0
     flipV: 0
   VelocityModule:
-    enabled: 0
+    enabled: 1
     x:
       serializedVersion: 2
       minMaxState: 0
@@ -4205,7 +4205,7 @@ ParticleSystem:
     speedModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.52
       minScalar: 1
       maxCurve:
         serializedVersion: 2
