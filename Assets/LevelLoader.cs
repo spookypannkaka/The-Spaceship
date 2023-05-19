@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour
 {
+    public AudioFader audioFader;
+    public float fadeDuration = 2f;
     public Animator transition;
     public Animator transition2;
     public float transitionTime = 1.0f;
@@ -32,6 +34,9 @@ public class LevelLoader : MonoBehaviour
         //Play animation
         transition.SetTrigger("Start");
         transition2.SetTrigger("Start");
+
+        //Fade out music
+        StartCoroutine(audioFader.FadeOut(fadeDuration));
 
         //Wait
         yield return new WaitForSeconds(transitionTime);
