@@ -17,6 +17,8 @@ public class matchOrbit : MonoBehaviour
     public GameObject Color2;
     public GameObject Color3;
     public GameObject Color4;
+    public GameObject soundEffectClear;
+    public GameObject soundEffectFail;
 
     SpriteRenderer spriteRenderer;
     SpriteRenderer outline;
@@ -54,6 +56,8 @@ public class matchOrbit : MonoBehaviour
     private bool pushedButton = false;
     private bool beenInCircle = false;
     private bool failed = false;
+    private bool correctCombo1 = false; // used to check for correct color and keypress combinations
+    private bool correctCombo2 = false;
     private int preCircleIndex = 10;
     private int hitCounter = 0;
 
@@ -83,17 +87,17 @@ public class matchOrbit : MonoBehaviour
         angleGoal = GoalAngles[0];
 
         colorList = new List<Color>();
-        colorList.Add(Color.red);
+        colorList.Add(Color.red); //endast färger
         colorList.Add(Color.green);
         colorList.Add(Color.blue);
         colorList.Add(Color.yellow);
         spriteColorList = new List<SpriteRenderer>();
-        spriteColorList.Add(spriteColor1);
+        spriteColorList.Add(spriteColor1); //sprite renderers
         spriteColorList.Add(spriteColor2);
         spriteColorList.Add(spriteColor3);
         spriteColorList.Add(spriteColor4);
         objectColorList = new List<GameObject>();
-        objectColorList.Add(Color1);
+        objectColorList.Add(Color1); //åtkomst transform osv
         objectColorList.Add(Color2);
         objectColorList.Add(Color3);
         objectColorList.Add(Color4);
@@ -163,7 +167,7 @@ public class matchOrbit : MonoBehaviour
 
             //Check if they are close enough to a color and check if the press the right key
             float shortestDistance = 10000f;
-            int currentIndex = 10;
+            int currentIndex = 10; //startvärde initierat, har ingen betydelse vad det är från start.
             for (int i = 0; i < 4; i++)
             {
                 float distanceToColor = Vector3.Distance(objectColorList[i].transform.position, Satelite.transform.position);
@@ -180,28 +184,60 @@ public class matchOrbit : MonoBehaviour
                 preCircleIndex = currentIndex;
                 beenInCircle = false;
                 pushedButton = false;
+                correctCombo1 = false;
+                correctCombo2 = false;
             }
 
             if (shortestDistance < successDistance)
             {
                 beenInCircle = true;
-                //Did they press a?
-                if (Input.GetKey(KeyCode.A))
+                //red + corresponding player keys 
+                if(currentIndex == 0 && Input.GetKey(KeyCode.T)){
+                    if(Input.GetKey(KeyCode.K)){
+                        correctCombo2 = true;
+                    }
+                    correctCombo1 = true;
+                }
+
+                else if(currentIndex == 1 && Input.GetKey(KeyCode.Y) ){
+                    if(Input.GetKey(KeyCode.L)){
+                        correctCombo2 = true;
+                    }
+                    correctCombo1 = true;
+                } 
+
+                else if(currentIndex == 2 && Input.GetKey(KeyCode.E)){
+                    if(Input.GetKey(KeyCode.H)){
+                        correctCombo2 = true;
+                    }
+                    correctCombo1 = true;
+                } 
+                else if(currentIndex == 3 && Input.GetKey(KeyCode.R)){
+                    if(Input.GetKey(KeyCode.J)){
+                        correctCombo2 = true;
+                    }
+                    correctCombo1 = true;
+                } 
+
+                //Did they press correct? //try comparing current index to certain combination
+                if (correctCombo1 && correctCombo2)
                 {
                     spriteColorList[currentIndex].enabled = false;
                     if(!pushedButton)
                     {
+                        soundEffectClear.GetComponent<AudioSource>().Play();
                         hitCounter++;
                         pushedButton = true;//pushed button
-                        spriteRenderer.enabled = true;
+                        //spriteRenderer.enabled = true;
                         Debug.Log(hitCounter);
 
 
                     }
                     
-                } else if (Input.anyKeyDown && !Input.GetKey(KeyCode.A)) //Did they press any other key?
+                } else if (Input.anyKeyDown && !correctCombo1 && !correctCombo2 && !pushedButton) //Did they press any other key?
                 {
-                    Debug.Log("Fel! tryck tangenten a");
+                    soundEffectFail.GetComponent<AudioSource>().Play();
+                    Debug.Log("Fel! tryck rätt färg!");
                     runningAnimation = false;
                     failed = true;
                 }
@@ -210,14 +246,15 @@ public class matchOrbit : MonoBehaviour
             {
                 if (beenInCircle && !pushedButton)
                 {
-                    Debug.Log("DU MISSA HAHAHAHAH!");
+                    soundEffectFail.GetComponent<AudioSource>().Play();
+                    Debug.Log("DU MISSA, din värdelösa sopa");
                     runningAnimation = false;
                     failed = true;
                 }
             }
 
             //Turn off animation, enable controls, hide colors
-            //Vill vi l�ta dem snurra ett varv �ven om de missar en f�rg?
+            //Vill vi l�ta dem snurra ett varv �ven om de missar en f�rg?
             if (hitCounter == 4 || (!runningAnimation)){
 
                 hitCounter = 0; //reset counter for how many they hit
