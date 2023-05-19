@@ -18,6 +18,15 @@ public class LevelLoader : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space)){
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
+
+        if (Input.GetKeyDown(KeyCode.Z)) {
+            SceneManager.LoadScene(0);
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            ExitGame();
+        }
+
     }
 
 
@@ -44,5 +53,14 @@ public class LevelLoader : MonoBehaviour
         //Load scene
         SceneManager.LoadScene(sceneName);
 
+    }
+
+    // Loads the start screen
+    public void RestartGame() {
+        SceneManager.LoadScene(0); // Replace with start screen build index
+    }
+
+    void ExitGame() {
+        Application.Quit();
     }
 }

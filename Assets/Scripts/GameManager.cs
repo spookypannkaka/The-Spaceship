@@ -22,6 +22,6 @@ public class GameManager : MonoBehaviour
 
     // Loads the start screen
     public void RestartGame() {
-        SceneManager.LoadScene(1); // Replace with start screen build index
+        SceneManager.LoadScene(0); // Replace with start screen build index
     }
 }

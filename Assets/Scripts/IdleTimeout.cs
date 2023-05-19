@@ -10,10 +10,10 @@ public class IdleTimeout : MonoBehaviour
     //[SerializeField] Slider slider; // Remove later
     [SerializeField] float secondsUntilTimeout;
     float timeLeft;
-    GameManager gameManager;
+    LevelLoader gameManager;
 
     void Awake() {
-        gameManager = FindObjectOfType<GameManager>();
+        gameManager = FindObjectOfType<LevelLoader>();
     }
 
     void Start() {
